@@ -74,99 +74,92 @@ function stackPop(){
 // MAIN FUNCTION
 function deepCloneES5(obj){
   
-  if(obj !== null && 
-    typeof obj === "object" && 
-    !checkStack(obj)
-  ){
+	if(obj !== null && 
+		typeof obj === "object" && 
+		!checkStack(obj)
+	){
 
-    // create object for return;
-    // differentiate between objects and dictionaries.
-    var newObj;
+    	var newObj;
 
-    // if object was constructed
-    // handle inheritance,
-    // or utilize built-in constructors
-    if(obj.constructor){
+    	if(obj.constructor){
 
-      var oType = obj.constructor.name || 
+			var oType = obj.constructor.name || 
 				obj.constructor.toString().match(nameRE)[1];
 
 
-      if(oType === "Object") 
-        newObj = new obj.constructor();
+			if(oType === "Object") 
+				newObj = new obj.constructor();
 
-      else if(filledConstructor[oType])
-        newObj = new obj.constructor(obj);
+			else if(filledConstructor[oType])
+				newObj = new obj.constructor(obj);
 
-      else if(obj.cloneNode)
-        newObj = obj.cloneNode(true);
+			else if(obj.cloneNode)
+				newObj = obj.cloneNode(true);
 
-      else if(arrayConstructorsES5[oType])
-        newObj = new obj.constructor(obj.length);
+			else if(arrayConstructorsES5[oType])
+				newObj = new obj.constructor(obj.length);
 
-      else if ( errorConstructor[oType] ){
+			else if ( errorConstructor[oType] ){
 
-        if(obj.stack){ // not ES3; but in FireFox1
+				if(obj.stack){
 
-          newObj = new obj.constructor(obj.message);
+					newObj = new obj.constructor(obj.message);
 
-          newObj.stack = obj.stack;
-        }
+					newObj.stack = obj.stack;
+				}
 
-        else
-          newObj = new Error(obj.message + " INACCURATE OR MISSING STACK-TRACE");
+        		else
+					newObj = new Error(obj.message + " INACCURATE OR MISSING STACK-TRACE");
         
-      }
+			}
 
-      else
-        newObj = Object.create(Object.getPrototypeOf(obj)); // loses multi-frame handling here
+			else
+				newObj = Object.create(Object.getPrototypeOf(obj)); // loses multi-frame handling here
       
-    }
+		}
 
-    else
-      newObj = Object.create(null); // multi-frame mishandling
+		else
+			newObj = Object.create(null); // multi-frame mishandling
 
 
-    let props = Object.getOwnPropertyNames(obj);
+		let props = Object.getOwnPropertyNames(obj);
 
-    let descriptor;
+		let descriptor;
 
-    for(let i in props){
+		for(let i in props){
 
-      descriptor = Object.getOwnPropertyDescriptor( obj, props[i] );
+			descriptor = Object.getOwnPropertyDescriptor( obj, props[i] );
 
-      prop = props[i];
+			prop = props[i];
 
-      // recurse into descriptor, if necessary
-      // and assign prop to newObj
-      if(descriptor.value){
+			if(descriptor.value){
 
-        if(descriptor.value !== null && 
-          typeof descriptor.value === "object"
-        ){
+				if(descriptor.value !== null && 
+					typeof descriptor.value === "object"
+				){
 
-          stackPush(obj);
+					stackPush(obj);
 
-          newObj[prop] = deepCloneES5(obj[prop]);
+					newObj[prop] = deepCloneES5(obj[prop]);
 
-          stackPop();
-        }
+					stackPop();
+				}
 
-        else
-          newObj[prop] = obj[prop];
+				else
+					newObj[prop] = obj[prop];
 
-      }
+			}
 
-      else if(descriptor.get || descriptor.set) 
-        continue;
+			else if(descriptor.get || descriptor.set) 
+				continue;
 
-      else
-        Object.defineProperty( newObj, prop, descriptor );
+			else
+				Object.defineProperty( newObj, prop, descriptor );
 
-    }
+		}
 
-    return newObj;
-  }
+		return newObj;
+	}
 
-  return obj;
+	return obj;
 }
