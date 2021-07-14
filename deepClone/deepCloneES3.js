@@ -83,30 +83,30 @@ function deepCloneES3(obj){
 				obj.constructor.toString().match(nameRE)[1];
 			
 			
-    if(conName === "Object")
-      newObj = new obj.constructor();
+	    	if(conName === "Object")
+	      		newObj = new obj.constructor();
 
-    else if ( filledConstructor[conName] ) 
-      newObj = new obj.constructor(obj);
+	    	else if ( filledConstructor[conName] ) 
+	      		newObj = new obj.constructor(obj);
 
-    else if ( conName === "Array" ) 
-      newObj = new obj.constructor(obj.length);
+	    	else if ( conName === "Array" ) 
+	      		newObj = new obj.constructor(obj.length);
 
-    else if ( errorConstructor[conName] ){
+	    	else if ( errorConstructor[conName] ){
 
-      if(obj.stack){ // not ES3; but in FireFox1
+	      		if(obj.stack){ // not ES3; but in FireFox1
 
-        newObj = new obj.constructor(obj.message);
+				newObj = new obj.constructor(obj.message);
 
-        newObj.stack = obj.stack;
-      }
+				newObj.stack = obj.stack;
+	      		}
 
-      else
-        newObj = new Error(obj.message + " INACCURATE OR MISSING STACK-TRACE");
-    }
+	      		else
+				newObj = new Error(obj.message + " INACCURATE OR MISSING STACK-TRACE");
+	    	}
 
-    else 
-      newObj = crockford(obj);
+	    	else 
+		      newObj = crockford(obj);
 		
 
 		for(var key in obj){
@@ -122,7 +122,7 @@ function deepCloneES3(obj){
           
 					newObj[key] = deepCloneES3( obj[key] );
 					
-          stackPop();
+          				stackPop();
 				}
 				
 				else
