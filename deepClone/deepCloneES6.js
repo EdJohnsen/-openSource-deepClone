@@ -96,7 +96,7 @@ function deepCloneES6(obj, circMap = new WeakMap()){
 
 			else if ( errorConstructor[oType] ){
 
-				if(obj.stack){ // not ES3; but in FireFox1
+				if(obj.stack){
 
 					newObj = new obj.constructor(obj.message);
 
