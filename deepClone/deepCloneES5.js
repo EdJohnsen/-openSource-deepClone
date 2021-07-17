@@ -149,8 +149,8 @@ var deepCloneES5 = (function(){
 
 				if(
 					descriptor.value &&
-					descriptor.value !== null && 
 					typeof descriptor.value === "object" &&
+					descriptor.value !== null && 
 					!checkStack( descriptor.value )
 				){
 
