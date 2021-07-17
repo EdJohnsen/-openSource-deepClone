@@ -1,6 +1,7 @@
 /*GNU LGPLv3*/
 
 var deepCloneES3 = (function(){
+	
 	// SUPPORT VARIABLES
 	var nameRE = /^\s*function ([^ (]*)/; // for constructor.name
 
@@ -28,17 +29,6 @@ var deepCloneES3 = (function(){
 
 
 	// SUPPORT FUNCTIONS
-	function crockford(obj){
-
-		function F(){};
-
-		F.prototype = obj.constructor.prototype;
-
-		return new F();
-	};	
-
-
-
 	function checkStack(obj){
 
 	  for(var i=0; i<stackLength; i++){
@@ -79,8 +69,9 @@ var deepCloneES3 = (function(){
 			!checkStack(obj)
 		){
 
+			stackPush(obj);
+			
 			var newObj;
-
 
 			var conName = obj.constructor.name || 
 					obj.constructor.toString().match(nameRE)[1];
@@ -108,8 +99,18 @@ var deepCloneES3 = (function(){
 					newObj = new Error(obj.message + " INACCURATE OR MISSING STACK-TRACE");
 			}
 
-			else 
-			      newObj = crockford(obj);
+			else{
+				
+				newObj = new obj.constructor();
+
+				for(var cKey in newObj)
+					if( 
+						newObj.hasOwnProperty(cKey) && 
+						!obj.hasOwnProperty(cKey)
+					)
+						delete newObj[cKey];
+				
+			}
 
 
 			for(var key in obj){
@@ -118,23 +119,23 @@ var deepCloneES3 = (function(){
 
 					if(
 						obj[key] !== null && 
-						typeof obj[key] === "object"
-					){
-
-						stackPush(obj);
-
+						typeof obj[key] === "object" &&
+						!checkStack( obj[key] )
+					)
 						newObj[key] = deepCloneES3( obj[key] );
-
-						stackPop();
-					}
 
 					else
 						newObj[key] = obj[key];
 				}
 			}
+			
+			stackPop();
+			
+			return newObj
 		}
 
-		return newObj || obj;
+		
+		return obj;
 	}
 	
 	
