@@ -1,3 +1,5 @@
+/*GNU LGPLv3*/
+
 // SUPPORT VARIABLES
 var nameRE = /^\s*function ([^ (]*)/; // for constructor.name
 
