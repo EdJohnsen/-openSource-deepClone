@@ -1,3 +1,5 @@
+/*GNU LGPLv3 Copyright (C) 2021 Ed Johnsen*/
+
 // GENERAL SUPPORT VARIABLES
 let errorConstructor = {
 	"Error":true,
