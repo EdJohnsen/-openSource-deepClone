@@ -110,18 +110,28 @@ function deepCloneES5(obj){
 					newObj.stack = obj.stack;
 				}
 
-        		else
-					newObj = new Error(obj.message + " INACCURATE OR MISSING STACK-TRACE");
+        			else
+					newObj = new obj.constructor(obj.message + " INACCURATE OR MISSING STACK-TRACE");
         
 			}
 
-			else
-				newObj = Object.create(Object.getPrototypeOf(obj)); // loses multi-frame handling here
+			else{
+				newObj = new obj.constructor();
+
+				var cProps = Object.getOwnPropertyNames(newObj);
+				
+				var cI = 0,
+				    cImax = cProps.length;
+				
+				for(;cI<cImax; cI++)
+					if( !obj.hasOwnProperty( cProps[cI] ) )
+						delete newObj[ cProps[cI] ];
       
+			}
 		}
 
 		else
-			newObj = Object.create(null); // multi-frame mishandling
+			newObj = Object.create(null);
 
 
 		let props = Object.getOwnPropertyNames(obj);
@@ -134,22 +144,19 @@ function deepCloneES5(obj){
 
 			prop = props[i];
 
-			if(descriptor.value){
+			if(
+				descriptor.value &&
+			   	descriptor.value !== null && 
+				typeof descriptor.value === "object"
+			){
 
-				if(descriptor.value !== null && 
-					typeof descriptor.value === "object"
-				){
+				stackPush(obj);
 
-					stackPush(obj);
+				Object.defineProperty( newObj, prop, descriptor );
+					
+				newObj[prop] = deepCloneES5(obj[prop]);
 
-					newObj[prop] = deepCloneES5(obj[prop]);
-
-					stackPop();
-				}
-
-				else
-					newObj[prop] = obj[prop];
-
+				stackPop();
 			}
 
 			else if(descriptor.get || descriptor.set) 
