@@ -98,9 +98,6 @@ var deepCloneES5 = (function(){
 				else if(filledConstructor[oType])
 					newObj = new obj.constructor(obj);
 
-				else if(obj.cloneNode)
-					newObj = obj.cloneNode(true);
-
 				else if(arrayConstructorsES5[oType])
 					newObj = new obj.constructor(obj.length);
 
