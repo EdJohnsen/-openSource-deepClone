@@ -82,9 +82,11 @@ var deepCloneES5 = (function(){
 			!checkStack(obj)
 		){
 
-		var newObj;
+			stackPush(obj);
 
-		if(obj.constructor){
+			var newObj;
+
+			if(obj.constructor){
 
 				var oType = obj.constructor.name || 
 					obj.constructor.toString().match(nameRE)[1];
@@ -135,9 +137,9 @@ var deepCloneES5 = (function(){
 				newObj = Object.create(null);
 
 
-			let props = Object.getOwnPropertyNames(obj);
-
-			let descriptor;
+			let props = Object.getOwnPropertyNames(obj),
+			    prop,
+			    descriptor;
 
 			for(let i in props){
 
@@ -148,16 +150,13 @@ var deepCloneES5 = (function(){
 				if(
 					descriptor.value &&
 					descriptor.value !== null && 
-					typeof descriptor.value === "object"
+					typeof descriptor.value === "object" &&
+					!checkStack( descriptor.value )
 				){
-
-					stackPush(obj);
 
 					Object.defineProperty( newObj, prop, descriptor );
 
 					newObj[prop] = deepCloneES5(obj[prop]);
-
-					stackPop();
 				}
 
 				else if(descriptor.get || descriptor.set) 
@@ -170,7 +169,9 @@ var deepCloneES5 = (function(){
 
 			return newObj;
 		}
-
+		
+		stackPop();
+		
 		return obj;
 	}
 	
