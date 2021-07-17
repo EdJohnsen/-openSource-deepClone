@@ -118,8 +118,8 @@ var deepCloneES3 = (function(){
 				if( obj.hasOwnProperty(key) ){
 
 					if(
-						obj[key] !== null && 
 						typeof obj[key] === "object" &&
+						obj[key] !== null && 
 						!checkStack( obj[key] )
 					)
 						newObj[key] = deepCloneES3( obj[key] );
