@@ -201,16 +201,21 @@ var deepCloneES6 = (function(){
 
 			for(let i = 0, imax = syms.length; i<imax; i++){
 
-				if(obj[syms[i]] !== null && 
-					typeof obj[syms[i]] === "object"
+				if(
+					typeof obj[ syms[i] ] === "object"&& 
+					obj[ syms[i] ] !== null &&
+					!circMap.get( obj[ syms[i] ] )
 				)
-					newObj[syms[i]] = cloneItES6( syms[i], circMap);
+					newObj[ syms[i] ] = cloneItES6( syms[i], circMap);
 
 				else
-					newObj[syms[i]] = obj[syms[i]];
+					newObj[ syms[i] ] = obj[ syms[i] ];
 
 			}
 
+			
+			circMap.delete(obj);
+			
 			return newObj;
 		}
 
