@@ -1,4 +1,4 @@
-/*GNU LGPLv3 Copyright (C) 2021 Ed Johnsen*/
+/*GNU LGPLv3*/
 
 // SUPPORT VARIABLES
 var errorConstructor = {
