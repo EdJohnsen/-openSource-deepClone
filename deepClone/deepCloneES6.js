@@ -1,6 +1,5 @@
-/*GNU LGPLv3*/
-
-var deepCloneES6 = (function(){
+var deepCloneES6 = (function(){ /*GNU LGPLv3*/
+	
 	// GENERAL SUPPORT VARIABLES
 	let errorConstructor = {
 		"Error":true,
