@@ -114,7 +114,7 @@ var deepCloneES6 = (function(){
 
 						let aVal = value !== null 
 							&& typeof value === "object" 
-							? deepCloneES6( value, circMap)
+							? deepCloneES6( value, circMap )
 							: value;
 
 						newObj.set( key, aVal );
@@ -129,12 +129,12 @@ var deepCloneES6 = (function(){
 
 						let aKey = typeof key === "object" 
 							&& key !== null 
-							? deepCloneES6( key, circMap) 
+							? deepCloneES6( key, circMap ) 
 							: key;
 
 						let aVal = typeof value === "object" 
 							&& value !== null 
-							? deepCloneES6( value, circMap) 
+							? deepCloneES6( value, circMap ) 
 							: value;
 
 						newObj.set( aKey, aVal );
