@@ -72,11 +72,8 @@ var deepCloneES6 = (function(){
 					if(longName === "[object Generator]")
 						return obj;
 
-					else if(longName === "[object Arguments]")
-						newObj = new Array(obj.length); // not multi-frame complete, and mangles object type
-
 					else
-						newObj = new obj.constructor();
+						newObj = new obj.constructor(); // mangles Argument-object type
 
 				}
 
@@ -185,7 +182,7 @@ var deepCloneES6 = (function(){
 
 					Object.defineProperty( newObj, prop, descriptor );
 
-					newObj[prop] = deepCloneES6( obj[prop], circMap);
+					newObj[prop] = deepCloneES6( obj[prop], circMap );
 				}
 
 				else if(descriptor.get || descriptor.set) 
@@ -197,19 +194,22 @@ var deepCloneES6 = (function(){
 			}
 
 
-			let syms = Object.getOwnPropertySymbols(obj);
+			let syms = Object.getOwnPropertySymbols(obj),
+			    sym;
 
 			for(let i = 0, imax = syms.length; i<imax; i++){
 
+				sym = syms[i];
+				
 				if(
-					typeof obj[ syms[i] ] === "object"&& 
-					obj[ syms[i] ] !== null &&
-					!circMap.get( obj[ syms[i] ] )
+					typeof obj[sym] === "object" && 
+					obj[sym] !== null &&
+					!circMap.get( obj[sym] )
 				)
-					newObj[ syms[i] ] = cloneItES6( syms[i], circMap);
+					newObj[sym] = cloneItES6( sym, circMap );
 
 				else
-					newObj[ syms[i] ] = obj[ syms[i] ];
+					newObj[sym] = obj[sym];
 
 			}
 
