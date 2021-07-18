@@ -1,7 +1,7 @@
 var deepCloneES3 = (function(){/*GNU LGPLv3*/
 	
 	// SUPPORT VARIABLES
-	var nameRE = /^\s*function ([^ (]*)/; // for constructor.name
+	var nameRE = /^\s*function ([^ (]*)/;
 
 	var stack = new Array(1000);
 
