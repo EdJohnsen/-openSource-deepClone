@@ -1,6 +1,6 @@
 var deepCloneES6 = (function(){ /*GNU LGPLv3*/
 	
-	// GENERAL SUPPORT VARIABLES
+	// SUPPORT VARIABLES
 	let errorConstructor = {
 		"Error":true,
 		"EvalError":true,
@@ -45,7 +45,7 @@ var deepCloneES6 = (function(){ /*GNU LGPLv3*/
 	};
 
 
-	// DEEP-CLONING FUNCTIONS ES6
+	// MAIN FUNCTION
 	function deepCloneES6(obj, circMap = new WeakMap()){
 
 		if(
@@ -220,7 +220,6 @@ var deepCloneES6 = (function(){ /*GNU LGPLv3*/
 
 		return obj;
 	}
-	
 	
 	return deepCloneES6;
 })();
