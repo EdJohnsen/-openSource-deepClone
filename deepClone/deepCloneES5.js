@@ -93,7 +93,7 @@ var deepCloneES5 = (function(){
 
 
 				if(oType === "Object") 
-					newObj = new obj.constructor();
+					newObj = new obj.constructor(); // mangles Argument-object type
 
 				else if(filledConstructor[oType])
 					newObj = new obj.constructor(obj);
