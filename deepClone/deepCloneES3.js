@@ -1,6 +1,4 @@
-/*GNU LGPLv3*/
-
-var deepCloneES3 = (function(){
+var deepCloneES3 = (function(){/*GNU LGPLv3*/
 	
 	// SUPPORT VARIABLES
 	var nameRE = /^\s*function ([^ (]*)/; // for constructor.name
