@@ -164,6 +164,8 @@ var deepCloneES5 = (function(){/*GNU LGPLv3*/
 
 			}
 
+			stackPop();
+			
 			return newObj;
 		}
 		
