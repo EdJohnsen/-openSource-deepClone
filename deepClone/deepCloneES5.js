@@ -76,8 +76,9 @@ var deepCloneES5 = (function(){/*GNU LGPLv3*/
 	// MAIN FUNCTION
 	function deepCloneES5(obj){
 
-		if(obj !== null && 
+		if(
 			typeof obj === "object" && 
+			obj !== null && 
 			!checkStack(obj)
 		){
 
@@ -165,8 +166,6 @@ var deepCloneES5 = (function(){/*GNU LGPLv3*/
 
 			return newObj;
 		}
-		
-		stackPop();
 		
 		return obj;
 	}
