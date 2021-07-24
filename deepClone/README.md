@@ -1,4 +1,4 @@
-Ignoring Call Stack problems, the deep-cloning solutions in this repository are considered "complete" by the below definition.
+Ignoring Call Stack problems, the deepCloneESx solutions in this repository are considered "complete" by the below definition.
 
 Additionally, excepting argument objects, all solutions in this repository support cross-frame deep-cloning.
 
