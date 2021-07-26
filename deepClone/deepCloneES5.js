@@ -144,23 +144,27 @@ var deepCloneES5 = (function(){/*GNU LGPLv3*/
 
 				prop = props[i];
 
-				if(
-					descriptor.value &&
-					typeof descriptor.value === "object" &&
-					descriptor.value !== null && 
-					!checkStack( descriptor.value )
-				){
+				if(typeof prop !== "function"){
 
-					Object.defineProperty( newObj, prop, descriptor );
+					if(
+						descriptor.value &&
+						typeof descriptor.value === "object" &&
+						descriptor.value !== null && 
+						!checkStack( descriptor.value )
+					){
 
-					newObj[prop] = deepCloneES5(obj[prop]);
+						Object.defineProperty( newObj, prop, descriptor );
+
+						newObj[prop] = deepCloneES5(obj[prop]);
+					}
+
+					else if(descriptor.get || descriptor.set) 
+						continue;
+
+					else
+						Object.defineProperty( newObj, prop, descriptor );
+
 				}
-
-				else if(descriptor.get || descriptor.set) 
-					continue;
-
-				else
-					Object.defineProperty( newObj, prop, descriptor );
 
 			}
 
